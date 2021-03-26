@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        table {
+            border: 1px solid black;
+            table-layout: fixed;
+        }
+        th,
+        td {
+            border: 1px solid black;
+            overflow: hidden;
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+</head>
+<body>
+<h3>Caro Game </h3>
+<div id="carogame">
+</div>
+<script>
+    function Playxo(move){
+        this.move = move
+        this.getMove = function (){
+            return this.move
+        }
+        this.click = function (x,y){
+            board[x][y] = this.getMove()
+            console.log("i="+x);
+            console.log("j="+y);
+            draw(board,caro);
+        }
+        this.checkMove = function (x,y){
+            for(x=0; x<board.length; x++) {
+                for (y=0; y<board.length; y++) {
+                    if (x==0||x==1||x==board.length-1||x==board.length-2) {
+                        if (board[x][y - 1] == this.move && board[x][y + 1] == this.move&&board[x][y - 2] == this.move && board[x][y + 2] == this.move) {
+                            alert("win")
+                        }
+                    }
+                }
+            }
+            for(x=2; x<board.length-2; x++){
+                for (y=0; y<board.length; y++){
+                    if (board[x][y]==this.move){
+                        if ((board[x][y-1]==this.move&&board[x][y+1]==this.move&&board[x][y-2]==this.move&&board[x][y+2]==this.move)||(board[x+1][y]==this.move&&board[x-1][y]==this.move&&board[x+2][y]==this.move&&board[x-2][y]==this.move)||(board[x-1][y-1]==this.move&&board[x+1][y+1]==this.move&&board[x-2][y-2]==this.move&&board[x+2][y+2]==this.move)||(board[x-1][y+1]==this.move&&board[x+1][y-1]==this.move&&board[x-2][y+2]==this.move&&board[x+2][y-2]==this.move)){
+                            alert("win")
+                        }
+                    }
+                }
+            }
+        }
+    }
+    function draw(a,id) {
+        let display = "<table style='width:900px;height:900px; border: black'>"
+        for (let i = 0; i < a.length; i++) {
+            display += "<tr>"
+            for (let j = 0; j < a[i].length; j++) {
+                display += "<td style='text-align: center' onclick=checkPlayer(" + i + "," + j + ")>" + a[i][j] + "</td>"
+            }
+            display += "</tr>"
+        }
+        display += "</table>"
+        id.innerHTML = display
+    }
+    function mang2chieu(){
+        let a = new Array(20)
+        for (let i=0;i<a.length;i++){
+            a[i] = new Array(20);
+            for (let j = 0; j < a[i].length; j++) {
+                a[i][j]="&nbsp&nbsp&nbsp&nbsp"
+            }
+        }
+        return a
+    }
+    let caro = document.getElementById("carogame")
+    let board = mang2chieu();
+    let player1 = new Playxo("<p style='color: red'>X</p>")
+    let player2 = new Playxo("<p style='color: blue'>O</p>")
+    draw(board,caro);
+    let check = true;
+    function checkPlayer(x,y){
+        if (board[x][y]=="<p style='color: red'>X</p>"||board[x][y]=="<p style='color: blue'>O</p>"){
+            return
+        }
+        if (check){
+            player1.click(x,y)
+            player1.checkMove(x,y)
+            check=false
+        }else{
+            player2.click(x,y)
+            player2.checkMove(x,y)
+            check=true
+        }
+    }
+</script>
+</body>
+</html>
+</body>
+</html>
